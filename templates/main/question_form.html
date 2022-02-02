@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h5 class="my-3 border-bottom pb-2">질문등록</h5>
+    <form method="post" class="post-form my-3">
+        {% csrf_token %}
+        {{ form.as_p }} <!--여기에서 사용되는 from 은 question_create 함수에 전달한 QuestionForm 의 객체이다-->
+        <button type="submit" class="btn btn-primary">저장하기</button>
+    </form>
+</div>
+{% endblock %}
