@@ -1,13 +1,47 @@
-Name: CI
+name: CI
 
-on: 
+
+on:
+
   push:
-    branches: [ main ]
+    branches: [ main ] 
+ 
+
+  workflow_dispatch:
+
 
 jobs:
-  django:
+
+  build:
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v3
+
+    - name: checkout release
+      uses: actions/checkout@v3
+
+    # Runs a single command using the runners shell 
+    - name: Clean temp directory
+      run: |
+        rm -rf *
+        cp -r $GITHUB_WORKSPACE . 
       
+    - name: archive drcloud 
+      run: tar cvfz ./drcloud.tar.gz *
+       
+    - name: AWS configure credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.SECRET_KEY }}
+        aws-region: ap-northeast-2
+        
+    - name: upload to S3
+      run: aws s3 cp --region ap-northeast-2 ./drcloud.tar.gz s3://githubactiontest1/
       
+    - name: deploy with AWS codeDeploy
+      run: aws deploy create-deployment
+        --application-name githubaction-test
+        --deployment-config-name CodeDeployDefault.OneAtATime
+        --deployment-group-name githubaction-test-group
+        --s3-location bucket=githubactiontest1,bundleType=tgz,key=drcloud.tar.gz
