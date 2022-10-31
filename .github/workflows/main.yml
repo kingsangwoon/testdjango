@@ -8,31 +8,31 @@ on:
     
 jobs:
 
-#  ci:
-#    runs-on: ubuntu-latest
-#    steps:
-#    - uses: actions/checkout@v2
-#      with:
-#        fetch-depth: 1
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
 
 
         
  
-#    - name: AWS credentials
-#      uses: aws-action/configure-aws-credentials@v1
-#      with:
-#        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#        aws-region: ap-northeast-2
+    - name: AWS credentials
+      uses: aws-action/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2
 
 
-#    - name: CodeBuild
-#      uses: aws-actions/aws-codebuild-run-build@v1.0.3
-#      with:
-#        project-name: Github-build
+    - name: CodeBuild
+      uses: aws-actions/aws-codebuild-run-build@v1.0.3
+      with:
+        project-name: Github-build
         
   cd:
-#    needs: [ci]
+    needs: [ci]
     runs-on: ubuntu-latest
     steps:
     - name: Configure AWS credentials
@@ -53,5 +53,5 @@ jobs:
           --application-name ${CODEDEPLOY_NAME} \
           --deployment-group-name ${CODEDEPLOY_GROUP_NAME} \
           --region ${REGION} \
-          --s3-location bucket=${S3_NAME},bundleType=zip,key=$GITHUB_SHA.zip \
+          --s3-location bucket=${S3_NAME},bundleType=zip,key=build.zip \
           --file-exists-behavior OVERWRITE \
