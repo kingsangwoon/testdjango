@@ -1,22 +1,22 @@
 version: 0.0
 os: linux
 files:
-  - source: /home/**/*
+  - source: home/
+    destination: /webapp/home/
+  - source: main/
+    destination: /webapp/main/
+  - source: static/
+    destination: /webapp/static/
+  - source: templates/
+    destination: /webapp//templates/
+  - source: db.sqlite3
     destination: /webapp/
-  - source: /main/**/*
+  - source: manage.py
     destination: /webapp/
-  - source: /static/**/*
+  - source: appspec.yml
     destination: /webapp/
-  - source: /templates/**/*
-    destination: /webapp/
-  - source: /db.sqlite3
-    destination: /webapp/
-  - source: /manage.py
-    destination: /webapp/
-  - source: /appspec.yml
-    destination: /webapp/
-  - source: /scripts/**/*
-    destination: /webapp/
+  - source: scripts/
+    destination: /webapp/scripts/
   - source: .venv/
     destination: /webapp/.venv/
 hooks:
