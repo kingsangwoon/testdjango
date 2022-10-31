@@ -3,8 +3,6 @@ os: linux
 files:
   - source: /
     destination: /webapp/
-  - source: .venv/
-    destination: /webapp/.venv/
 hooks:
   BeforeInstall:
     - location: scripts/beforeInstall.sh
