@@ -1,7 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source: /src/app.py
+  - source: /
     destination: /webapp/
   - source: .venv/
     destination: /webapp/.venv/
