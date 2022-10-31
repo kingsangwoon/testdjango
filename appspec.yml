@@ -1,20 +1,8 @@
 version: 0.0
 os: linux
 files:
-  - source: /home/**/*
+  - source: /
     destination: /webapp/
-  - source: /main/**/*
-    destination: /webapp/
-  - source: /static/**/*
-    destination: /webapp/
-  - source: /templates/**/*
-    destination: /webapp/
-  - source: /db.sqlite3
-    destination: /webapp/
-  - source: /manage.py
-    destination: /webapp/
-  - source: .venv/
-    destination: /webapp/.venv/
 hooks:
   BeforeInstall:
     - location: scripts/beforeInstall.sh
