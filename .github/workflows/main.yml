@@ -22,6 +22,12 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-northeast-2
 
-    
-  
+
+    - name: CodeBuild
+      uses: aws-actions/aws-codebuild-run-build@v1.0.3
+      with:
+        project-name: cicdtest
+
+    - name: Code Deploy
+      run: aws deploy create-deployment --application-name cicdtest --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name cicd-bluegreen --s3-location bucket=cicdtestsunny,bundleType=zip,key=build.zip
     
