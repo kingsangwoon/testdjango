@@ -44,7 +44,7 @@ jobs:
     - name: Create codeDeploy deployment
       env:
         REGION: ap-northeast-2
-        CODEDEPLOY_NAME: Github-test
+        CODEDEPLOY_NAME: github-deploy
         CODEDEPLOY_GROUP_NAME: deploy-ec2-1
         S3_NAME: githubactiontest1
       run: |
