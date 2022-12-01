@@ -1,56 +1,57 @@
-name: test
+#name: test
 
-on: 
-  push: 
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+
+#on: 
+#  push: 
+#    branches: [ master ]
+#  pull_request:
+#    branches: [ master ]
     
-jobs:
+#jobs:
 
-  ci:
+#  ci:
   
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v2
+#      with:
+#        fetch-depth: 1
         
  
-    - name: AWS credentials
-      uses: aws-action/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ap-northeast-2
+#    - name: AWS credentials
+#      uses: aws-action/configure-aws-credentials@v1
+#      with:
+#        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#        aws-region: ap-northeast-2
 
 
-    - name: CodeBuild
-      uses: aws-actions/aws-codebuild-run-build@v1.0.3
-      with:
-        project-name: Github-build
+#   - name: CodeBuild
+#     uses: aws-actions/aws-codebuild-run-build@v1.0.3
+#     with:
+#       project-name: Github-build
         
-  cd:
-    needs: [ci]
-    runs-on: ubuntu-latest
-    steps:
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ap-northeast-2
+# cd:
+#   needs: [ci]
+#   runs-on: ubuntu-latest
+#   steps:
+#   - name: Configure AWS credentials
+#     uses: aws-actions/configure-aws-credentials@v1
+#     with:
+#       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#       aws-region: ap-northeast-2
 
-    - name: Create codeDeploy deployment
-      env:
-        REGION: ap-northeast-2
-        CODEDEPLOY_NAME: github-deploy
-        CODEDEPLOY_GROUP_NAME: deploy-ec2-1
-        S3_NAME: githubactiontest1
-      run: |
-        aws deploy create-deployment \
-          --application-name ${CODEDEPLOY_NAME} \
-          --deployment-group-name ${CODEDEPLOY_GROUP_NAME} \
-          --region ${REGION} \
-          --s3-location bucket=${S3_NAME},bundleType=zip,key=build.zip \
-          --file-exists-behavior OVERWRITE \
+#    - name: Create codeDeploy deployment
+#      env:
+#        REGION: ap-northeast-2
+#        CODEDEPLOY_NAME: github-deploy
+#        CODEDEPLOY_GROUP_NAME: deploy-ec2-1
+#        S3_NAME: githubactiontest1
+#      run: |
+#        aws deploy create-deployment \
+#          --application-name ${CODEDEPLOY_NAME} \
+#          --deployment-group-name ${CODEDEPLOY_GROUP_NAME} \
+#          --region ${REGION} \
+#          --s3-location bucket=${S3_NAME},bundleType=zip,key=build.zip \
+#          --file-exists-behavior OVERWRITE \
